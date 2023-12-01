@@ -4,27 +4,22 @@ dotenv.config();
 
 import { connectDB } from './database/conn.js';
 
-import { getHomePage } from './controllers/indexController.js';
-import { getRegisterPage, saveUser } from './controllers/registerController.js'
-import { getLoginPage, userLogin } from "./controllers/loginController.js";
-import { getError404Page } from "./controllers/error404Controller.js";
+import { router } from "./routes/v1/UserRoutes.js";
 
-const port = process.env.PORT || 3000;
 const app = express();
 
 app.set("view engine", "ejs");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-connectDB();
-
-app.get("/", getHomePage);
-app.get("/register", getRegisterPage);
-app.post("/register/save", saveUser);
-app.get("/login", getLoginPage);
-app.post("/login/save", userLogin);
-app.get("*", getError404Page);
-
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
+app.use((req, res, next) => {
+    console.log(req.path, req.method);
+    next();
 });
+
+connectDB()
+    .then(() => {
+        app.use("/api/workouts", router);
+        app.listen(process.env.PORT, () => {
+            console.log('Servidor rodando na porta ', process.env.PORT);
+        });
+    }).catch(error => console.error(`Não foi possiveil se conectar ao MongoDB por causa do error: ${error}`));
