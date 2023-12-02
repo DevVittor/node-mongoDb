@@ -1,9 +1,9 @@
-import { User } from '../models/userModel.js';
+import User from '../models/userModel.js';
 import bcrypt from "bcrypt";
 class Login {
 
     async loginPage(req, res) {
-        res.render("Login");
+        res.send("Login");
     }
 
     async userLogin(req, res) {

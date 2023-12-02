@@ -5,7 +5,7 @@ dotenv.config();
 const url = process.env.MONGOURL;
 const schema = process.env.MONGOSHEMA;
 
-export const connectDB = async () => {
+const connectDB = async () => {
     try {
         await mongoose.connect(`${url}${schema}`);
         console.log('Conexão com o MongoDB estabelecida.');
@@ -14,3 +14,5 @@ export const connectDB = async () => {
         process.exit(1); // Encerra o processo com falha em caso de erro na conexão
     }
 };
+
+export default connectDB;

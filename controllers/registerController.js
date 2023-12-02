@@ -1,24 +1,29 @@
-import { User } from '../models/userModel.js';
+import User from '../models/userModel.js';
 import bcrypt from "bcrypt";
 
-export const getRegisterPage = (req, res) => {
-    res.render("Register");
-};
+class Register {
 
-export const saveUser = async (req, res) => {
-    const { email, senha } = req.body;
+    async RegisterPage(req, res) {
+        res.send("Register");
+    };
 
-    if (!email) {
-        console.log(`Tem que ter um email`);
-    } else if (!senha) {
-        console.log(`Tem que ter uma senha`);
-    } else {
-        const hashPassword = await bcrypt.hash(senha, 10);
-        const cadastrarUser = new User({
-            email,
-            senha: hashPassword
-        });
-        cadastrarUser.save();
-        res.status(200).json({ dadosUser: cadastrarUser });
+    async saveUser(req, res) {
+        const { email, senha } = req.body;
+
+        if (!email) {
+            console.log(`Tem que ter um email`);
+        } else if (!senha) {
+            console.log(`Tem que ter uma senha`);
+        } else {
+            const hashPassword = await bcrypt.hash(senha, 10);
+            const cadastrarUser = new User({
+                email,
+                senha: hashPassword
+            });
+            cadastrarUser.save();
+            res.status(200).json({ dadosUser: cadastrarUser });
+        }
     }
+
 }
+export default Register;

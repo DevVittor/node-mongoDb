@@ -1,20 +1,25 @@
 import express from "express";
 import dotenv from "dotenv";
+import compression from "compression";
+import cors from 'cors';
 dotenv.config();
 
-import { connectDB } from './database/conn.js';
+import connectDB from './database/conn.js';
 
-import { router } from "./routes/v1/UserRoutes.js";
+import router from "./routes/v1/UserRoutes.js";
 
 const app = express();
 
-app.set("view engine", "ejs");
+app.use("/upload", express.static("upload"));
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use((req, res, next) => {
+app.use(cors());
+app.use((req, __, next) => {
     console.log(req.path, req.method);
     next();
 });
+app.disable("x-powered-by");
 
 connectDB()
     .then(() => {
