@@ -12,7 +12,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    }
+    },
+    privilegios: [{
+        type: String,
+        required: true,
+        default: "Cliente",
+        enum: ["Cliente", "Acompanhante", "Anunciante", "Administrador"]
+    }]
 });
 
 const User = mongoose.model("Users", userSchema);

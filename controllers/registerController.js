@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 class Register {
 
     async RegisterPage(req, res) {
-        res.send("Register");
+        res.render("Register");
     };
 
     async saveUser(req, res) {
@@ -21,7 +21,8 @@ class Register {
                 senha: hashPassword
             });
             cadastrarUser.save();
-            res.status(200).json({ dadosUser: cadastrarUser });
+            console.log("Conta criada com sucesso!");
+            res.status(200).redirect("/api/workouts/");
         }
     }
 

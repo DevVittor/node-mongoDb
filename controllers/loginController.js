@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 class Login {
 
     async loginPage(req, res) {
-        res.send("Login");
+        res.render("Login");
     }
 
     async userLogin(req, res) {

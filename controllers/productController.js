@@ -6,33 +6,40 @@ import fs from 'fs';
 class Product {
 
     async productHomePage(req, res) {
-        res.send("Product");
+        res.render("Product");
     };
 
     async createProduct(req, res) {
 
+        if (!req.files || req.files.length === 0) {
+            console.log("Nenhum arquivo foi enviado");
+            res.status(400).send("Nenhum arquivo foi enviado");
+            return;
+        }
         const { marca, valor } = req.body;
-        const avatar = req.file.filename;
+        const convertedImages = [];
+        for (const file of req.files) {
+            const nameFile = removeAccents(marca).replace(/[^a-zA-Z0-9]+/g, '_');
+            const convertedImg = `${nameFile}_${Date.now()}.webp`;
 
-        const nameFile = removeAccents(marca).replace(/[^a-zA-Z0-9]+/g, '_');
-        const convertedImg = `${nameFile}_${Date.now()}.webp`;
+            await sharp(file.path)
+                .resize({ width: 600, fit: 'cover', position: 'center' })
+                .toFile(`upload/${convertedImg}`);
 
-        await sharp(`upload/${avatar}`)
-            .resize({ width: 600, fit: 'cover', position: 'center' })
-            .toFile(`upload/${convertedImg}`);
+            fs.unlink(file.path, (err) => {
+                if (err) {
+                    console.error(`Erro ao excluir o arquivo: ${err}`);
+                } else {
+                    console.log(`Arquivo ${file.filename} excluído com sucesso.`);
+                }
+            });
 
-        fs.unlink(`upload/${avatar}`, (err) => {
-            if (err) {
-                console.error(`Erro ao excluir o arquivo: ${err}`);
-            } else {
-                console.log(`Arquivo ${avatar} excluído com sucesso.`);
-            }
-        });
-
+            convertedImages.push(convertedImg);
+        }
         try {
 
             const productCreate = await productModel.create({
-                avatar: convertedImg,
+                avatar: convertedImages,
                 marca,
                 valor
             });
@@ -46,6 +53,16 @@ class Product {
             return;
         }
 
+    }
+
+    async deleteAllProducts(req, res) {
+        try {
+            await productModel.deleteMany({});
+            console.log("Todos os produtos foram apagados.")
+            res.status(200);
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     }
 
 }

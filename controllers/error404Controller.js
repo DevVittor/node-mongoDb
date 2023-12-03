@@ -1,7 +1,7 @@
 class PageFound {
 
     async getError404Page(req, res) {
-        res.send("Error404");
+        res.render("Error404");
     }
 
 }

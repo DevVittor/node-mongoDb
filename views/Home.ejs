@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="shortcut icon" href="/imgs/logo.png" type="image/x-icon">
+    <title>Inicio</title>
+</head>
+<body>
+    <%- include('./Header.ejs'); %>
+   <main>
+    <section>
+        <div class="container-home">
+            <a href="/api/workouts/login">Fazer Login</a>
+            <br>
+            <a href="/api/workouts/register">Criar Conta</a>
+            <br>
+            <a href="/api/workouts/product">Novo produto</a>
+            <br>
+            <a href="/api/workouts/publicidade">Criar Publicidade</a>
+        </div>
+    </section>
+   </main>
+   <%-include('./Footer.ejs');%>
+</body>
+</html>

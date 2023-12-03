@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.6.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/product.css">
+    <title>Product</title>
+</head>
+<body>
+    <%-include('./Header.ejs');%>
+    <div>
+        <h1>New Product</h1>
+        <form action="/api/workouts/product/save" method="post" enctype="multipart/form-data">
+            <input type="file" name="avatar" id="avatarsInput" multiple>
+            <input type="text" name="marca" id="" placeholder="Marca">
+            <input type="number" name="valor" id="" placeholder="Value">
+            <input type="submit" value="Register Product">
+        </form>
+        <h1>Remove All Products</h1>
+        <form id="removeAllForm">
+            <button type="button" value="Remove All Products" onclick="removeAllProducts()">Remove All Products</button>
+        </form>
+        <div id="imagens">
+        </div>
+    </div>
+    <%-include('./Footer.ejs');%>
+    <script>
+        async function removeAllProducts() {
+            try {
+                const response = await fetch('/api/workouts/product/remove', {
+                    method: 'DELETE'
+                });
+    
+                if (response.ok) {
+                    alert('Todos os produtos foram removidos!');
+                    // Pode redirecionar para outra página ou fazer outra ação após o sucesso
+                } else {
+                    alert('Falha ao remover os produtos.');
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao remover os produtos.');
+            }
+        }
+
+    
+        const fileInput = document.getElementById('avatarsInput');
+
+fileInput.addEventListener('change', function() {
+    const divImage = document.getElementById("imagens");
+    
+    const files = this.files;
+
+    const maxFiles = 5; // Defina aqui o limite de arquivos permitidos
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+
+        const listImg = document.createElement("img");
+        const fileSizeInBytes = file.size;
+        const fileSizeInKB = fileSizeInBytes / 1024; // Convertendo para KB
+        const fileSizeInMB = fileSizeInKB / 1024; // Convertendo para MB
+
+        console.log(`Nome do arquivo: ${file.name}`);
+        console.log(`Tamanho do arquivo: ${fileSizeInBytes} bytes`);
+        console.log(`Tamanho do arquivo em KB: ${fileSizeInKB.toFixed(2)} KB`);
+        console.log(`Tamanho do arquivo em MB: ${fileSizeInMB.toFixed(2)} MB`);
+
+        if (i < maxFiles) {
+            const objectURL = URL.createObjectURL(file);
+            listImg.src = objectURL;
+            listImg.style.maxWidth = "200px"; // Defina o tamanho máximo da imagem aqui
+            divImage.appendChild(listImg);
+        } else {
+            alert(`Você pode selecionar no máximo ${maxFiles} arquivos.`);
+            break;
+        }
+    }
+});
+
+
+    </script>
+</body>
+</html>
