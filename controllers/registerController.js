@@ -22,7 +22,7 @@ class Register {
             });
             cadastrarUser.save();
             console.log("Conta criada com sucesso!");
-            res.status(200).redirect("/api/workouts/");
+            res.status(200).redirect("/v1/api/");
         }
     }
 

@@ -45,7 +45,7 @@ class Product {
             });
             productCreate.save();
             console.log("Produto criado com sucesso!");
-            res.status(200).redirect("/api/workouts/");
+            res.status(200).redirect("/v1/api/");
 
         } catch (error) {
             console.log(`Não foi possível criar o produto por causa disso: ${error}`);

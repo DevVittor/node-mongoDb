@@ -5,7 +5,8 @@ dotenv.config();
 
 import connectDB from './database/conn.js';
 
-import router from "./routes/v1/UserRoutes.js";
+//import router from "./routes/v1/UserRoutes.js";
+import router from "./routes/v1/index.js";
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.disable("x-powered-by");
 
 connectDB()
     .then(() => {
-        app.use("/api/workouts", router);
+        app.use("/v1/api", router);
         app.listen(process.env.PORT, () => {
             console.log('Servidor rodando na porta ', process.env.PORT);
         });

@@ -14,7 +14,7 @@
     <%-include('./Header.ejs');%>
     <div>
         <h1>New Product</h1>
-        <form action="/api/workouts/product/save" method="post" enctype="multipart/form-data">
+        <form action="/v1/api/product/save" method="post" enctype="multipart/form-data">
             <input type="file" name="avatar" id="avatarsInput" multiple>
             <input type="text" name="marca" id="" placeholder="Marca">
             <input type="number" name="valor" id="" placeholder="Value">
@@ -31,7 +31,7 @@
     <script>
         async function removeAllProducts() {
             try {
-                const response = await fetch('/api/workouts/product/remove', {
+                const response = await fetch('/v1/api/product/remove', {
                     method: 'DELETE'
                 });
     

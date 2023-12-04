@@ -21,10 +21,10 @@ class Login {
 
             if (senhaValida) {
                 console.log(`Login feito com sucesso!`)
-                res.status(200).redirect("/api/workouts/");
+                res.status(200).redirect("/v1/api/");
             } else {
                 console.log(`Não foi possivel fazer login`)
-                res.status(301).redirect("/api/workouts/login");
+                res.status(301).redirect("/v1/api/login");
             }
         } catch (error) {
             console.error(error);
