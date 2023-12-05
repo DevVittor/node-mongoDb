@@ -5,11 +5,11 @@ import fs from 'fs';
 
 class Product {
 
-    async productHomePage(req, res) {
+    async index(req, res) {
         res.render("Product");
     };
 
-    async createProduct(req, res) {
+    async store(req, res) {
 
         if (!req.files || req.files.length === 0) {
             console.log("Nenhum arquivo foi enviado");
@@ -55,7 +55,7 @@ class Product {
 
     }
 
-    async deleteAllProducts(req, res) {
+    async remove(req, res) {
         try {
             await productModel.deleteMany({});
             console.log("Todos os produtos foram apagados.")

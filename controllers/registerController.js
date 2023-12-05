@@ -3,11 +3,11 @@ import bcrypt from "bcrypt";
 
 class Register {
 
-    async RegisterPage(req, res) {
+    async index(req, res) {
         res.render("Register");
     };
 
-    async saveUser(req, res) {
+    async store(req, res) {
         const { email, senha } = req.body;
 
         if (!email) {

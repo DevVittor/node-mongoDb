@@ -6,6 +6,7 @@ import Register from '../../controllers/registerController.js';
 
 const registerController = new Register();
 
-router.get("/", registerController.RegisterPage);
+router.get("/", registerController.index);
+router.post("/save", registerController.store);
 
 export default router;
