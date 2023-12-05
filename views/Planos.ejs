@@ -12,7 +12,11 @@
 </head>
 <body>
     <%-include("./Header.ejs");%>
-    <h1>Planos</h1>
+    <h1>Plano R$ 4,97/Mês</h1>
+    <form action="/v1/api/planos/checkout" method="post">
+        <input type="hidden" name="priceId" value="price_1OAKhZIbcEgeFqaq9B9XK5SR">
+        <input type="submit" value="Assinar">
+    </form>
     <%-include("./Footer.ejs");%>
 </body>
 </html>

@@ -7,4 +7,6 @@ const planosController = new Planos();
 
 router.get("/", planosController.index);
 
+router.post("/checkout", planosController.createRecovery);
+
 export default router
