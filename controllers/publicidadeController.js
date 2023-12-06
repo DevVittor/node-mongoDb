@@ -1,11 +1,11 @@
 class Publicidade {
 
-    async publicidadePage(req, res) {
-        res.render("Publi");
+    async index(req, res) {
+        res.json({ mensagem: "Publi" });
     }
-    async createBanner(req, res) {
+    async store(req, res) {
         console.log("Anuncio criado!");
-        res.status(200).redirect("/v1/api/");
+        res.status(200);
     }
 
 }

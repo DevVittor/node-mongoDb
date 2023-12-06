@@ -2,10 +2,10 @@ import express from 'express';
 
 const router = express.Router();
 
-import Product from '../../controllers/productController.js';
+import Acomp from '../../controllers/acompController.js';
 import upload from '../../middleware/multer.js';
 
-const productController = new Product();
+const productController = new Acomp();
 
 router.get("/", productController.index);
 router.post("/save", upload.array("avatar", 5), productController.store);

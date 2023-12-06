@@ -1,6 +1,7 @@
 class Home {
-    async getHomePage(req, res) {
-        res.render("Home");
+    async index(req, res) {
+
+        res.json({ mensagem: "Apenas a home" });
     }
 }
 

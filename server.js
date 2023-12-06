@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import dotenv from "dotenv";
 import compression from "compression";
 dotenv.config();
@@ -10,12 +11,11 @@ import router from "./routes/v1/index.js";
 
 const app = express();
 
-app.set("view engine", "ejs");
-app.use(express.static('public'));
 app.use("/upload", express.static("upload"));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 app.use((req, __, next) => {
     console.log(req.path, req.method);
     next();

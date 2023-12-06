@@ -1,12 +1,27 @@
-import productModel from '../models/productModel.js';
+import acompModel from '../models/acompModel.js';
 import sharp from 'sharp';
 import removeAccents from "remove-accents";
 import fs from 'fs';
 
-class Product {
+class Acomp {
 
     async index(req, res) {
-        res.render("Product");
+        const listProduct = await acompModel.find();
+
+        res.json({ dados: listProduct });
+    };
+
+    async show(req, res) {
+        const { id } = req.params;
+        try {
+            const acompInfo = await acompModel.findOne({ _id: id });
+            if (!acompInfo) {
+                return res.status(404).json({ message: 'Acompanhante não encontrado' });
+            }
+            res.status(200).json({ info: acompInfo });
+        } catch (error) {
+            res.status(500).json({ message: error.message });
+        }
     };
 
     async store(req, res) {
@@ -16,10 +31,10 @@ class Product {
             res.status(400).send("Nenhum arquivo foi enviado");
             return;
         }
-        const { marca, valor } = req.body;
+        const { nome, caches } = req.body;
         const convertedImages = [];
         for (const file of req.files) {
-            const nameFile = removeAccents(marca).replace(/[^a-zA-Z0-9]+/g, '_');
+            const nameFile = removeAccents(nome).replace(/[^a-zA-Z0-9]+/g, '_');
             const convertedImg = `${nameFile}_${Date.now()}.webp`;
 
             await sharp(file.path)
@@ -38,10 +53,10 @@ class Product {
         }
         try {
 
-            const productCreate = await productModel.create({
-                avatar: convertedImages,
-                marca,
-                valor
+            const productCreate = await acompModel.create({
+                fotos: convertedImages,
+                nome,
+                caches
             });
             productCreate.save();
             console.log("Produto criado com sucesso!");
@@ -57,7 +72,7 @@ class Product {
 
     async remove(req, res) {
         try {
-            await productModel.deleteMany({});
+            await acompModel.deleteMany({});
             console.log("Todos os produtos foram apagados.")
             res.status(200);
         } catch (error) {
@@ -67,4 +82,4 @@ class Product {
 
 }
 
-export default Product;
+export default Acomp;

@@ -1,7 +1,7 @@
 class Sobre {
 
-    async index(req, res, next) {
-        res.render("Sobre");
+    async index(req, res) {
+        res.json({ mensagem: "Sobre" });
     }
 
 }

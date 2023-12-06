@@ -5,6 +5,6 @@ import Home from '../../controllers/indexController.js';
 
 const homeController = new Home();
 
-router.get("/", homeController.getHomePage);
+router.get("/", homeController.index);
 
 export default router;
