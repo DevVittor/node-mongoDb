@@ -1,5 +1,9 @@
 import User from '../models/userModel.js';
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
+const jwtSecret = process.env.JWT_SECRET;
 class Login {
 
     async index(req, res) {
@@ -20,6 +24,20 @@ class Login {
             const senhaValida = await bcrypt.compare(senha, userCheck.senha);
 
             if (senhaValida) {
+              jwt.sign(
+                {id:userCheck._id},
+                jwtSecret,
+                {expiresIn:30},
+                (error,token)=>{
+                  if(error){
+                    res.status(400).json({error:"Falha Interna"});
+                  }else{
+                    req.tokenCode = token;
+                    res.status(200).json({token:token});
+                    console.log(token);
+                  }
+                }
+              )
                 console.log(`Login feito com sucesso!`)
                 res.status(200);
             } else {
@@ -30,7 +48,7 @@ class Login {
             console.error(error);
             res.status(500).json({ error: error });
         }
-    }
+	}
 
 }
 

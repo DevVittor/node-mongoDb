@@ -26,13 +26,13 @@ class Acomp {
 
     async store(req, res) {
 
-        if (!req.files || req.files.length === 0) {
+        /*if (!req.files || req.files.length === 0) {
             console.log("Nenhum arquivo foi enviado");
             res.status(400).send("Nenhum arquivo foi enviado");
             return;
-        }
-        const { nome, caches } = req.body;
-        const convertedImages = [];
+        }*/
+        const { nome,genero,idade, caches,sobre } = req.body;
+        /*const convertedImages = [];
         for (const file of req.files) {
             const nameFile = removeAccents(nome).replace(/[^a-zA-Z0-9]+/g, '_');
             const convertedImg = `${nameFile}_${Date.now()}.webp`;
@@ -50,20 +50,23 @@ class Acomp {
             });
 
             convertedImages.push(convertedImg);
-        }
+        }*/
         try {
 
             const productCreate = await acompModel.create({
-                fotos: convertedImages,
+                //fotos: convertedImages,
                 nome,
-                caches
+                genero,
+                idade,
+                caches,
+                sobre
             });
             productCreate.save();
             console.log("Produto criado com sucesso!");
-            res.status(200).redirect("/v1/api/");
+            res.status(200).json({mensagem:"Produto criado com sucesso!"});
 
         } catch (error) {
-            console.log(`Não foi possível criar o produto por causa disso: ${error}`);
+            console.log(`Não foi possível criar um perfil por causa disso: ${error}`);
             res.status(401);
             return;
         }

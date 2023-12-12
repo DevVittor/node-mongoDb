@@ -5,7 +5,7 @@ const router = express.Router();
 import home from './homeRoute.js';
 import acomp from './acompRoute.js';
 import planos from './planosRoute.js';
-import sobre from './sobreRoute.js';pageFound
+import sobre from './sobreRoute.js';
 import register from './registerRoute.js';
 import login from './loginRoute.js';
 import product from './productRoute.js';

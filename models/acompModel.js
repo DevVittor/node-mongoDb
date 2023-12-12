@@ -3,11 +3,21 @@ import mongoose from "mongoose";
 const acompSchema = new mongoose.Schema({
     fotos: [{
         type: String,
-        required: [true, 'Fotos são obrigatórias. Por favor, adicione pelo menos uma foto.']
+        required: [false, 'Fotos são obrigatórias. Por favor, adicione pelo menos uma foto.']
     }],
     nome: {
         type: String,
         required: [true, 'O campo Nome é obrigatório. Por favor, forneça um nome para seu perfil.']
+    },
+    genero:{
+      type:String,
+      required:[true,"Precisamos saber o seu genero para motivos de buscas"],
+      trim:true,
+    },
+    idade:{
+      type:Number,
+      required:[true,"Precisamos saber a sua idade para liberar o seu cadastro"],
+      trim:true,
     },
     sobre: {
         type: String,
@@ -36,6 +46,6 @@ const acompSchema = new mongoose.Schema({
     }]
 })
 
-const acompModel = mongoose.model("products", acompSchema);
+const acompModel = mongoose.model("acomps", acompSchema);
 
 export default acompModel;
