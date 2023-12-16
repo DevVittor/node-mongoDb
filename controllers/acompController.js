@@ -6,9 +6,16 @@ import fs from 'fs';
 class Acomp {
 
     async index(req, res) {
-        const listProduct = await acompModel.find();
+      const { page = 1, limit = 6 } = req.query; // Padrão para página 1 e limite de 6 itens
+      const skip = (page - 1) * limit;
 
-        res.json({ dados: listProduct });
+      try {
+          const listProduct = await acompModel.find().skip(skip).limit(parseInt(limit));
+
+          res.json({ dados: listProduct });
+      } catch (error) {
+          res.status(500).json({ message: error.message });
+      }
     };
 
     async show(req, res) {
