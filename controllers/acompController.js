@@ -6,7 +6,7 @@ import fs from 'fs';
 class Acomp {
 
     async index(req, res) {
-      const { page = 1, limit = 6 } = req.query; // Padrão para página 1 e limite de 6 itens
+      const { page = 1, limit = 12 } = req.query; // Padrão para página 1 e limite de 12 itens
       const skip = (page - 1) * limit;
 
       try {
