@@ -20,6 +20,6 @@ router.use("/register", register);
 router.use("/login", login);
 router.use("/product", product);
 router.use("/publicidade", publicidade);
-router.use("/", pageFound);
+router.use("/*", pageFound);
 
 export default router;
