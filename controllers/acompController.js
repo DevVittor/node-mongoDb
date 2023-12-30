@@ -1,6 +1,6 @@
 import acompModel from '../models/acompModel.js';
-import sharp from 'sharp';
-import removeAccents from "remove-accents";
+//import sharp from 'sharp';
+//import removeAccents from "remove-accents";
 //import fs from 'fs';
 
 class Acomp {
@@ -10,16 +10,17 @@ class Acomp {
     const skip = (page - 1) * limit;
 
     try {
-      const {nome} = req.body;
+      const { nome, genero } = req.body;
       if(nome){
-        const searchUser = await acompModel.findOne({nome: nome});
+        const searchUser = await acompModel.find({nome: {$regex: new RegExp(nome,"i") } });
         res.status(200).json({search:searchUser});
+      }else{
+        const listProduct = await acompModel.find().skip(skip).limit(parseInt(limit));
+        res.status(200).json({ dados: listProduct });
       }
 
-      const listProduct = await acompModel.find().skip(skip).limit(parseInt(limit));
-      res.json({ dados: listProduct });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+        res.status(500).json({ message: error.message });
     }
   };
 
