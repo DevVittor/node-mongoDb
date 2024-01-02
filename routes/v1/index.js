@@ -12,9 +12,11 @@ import logout from './logoutRoute.js';
 import product from './productRoute.js';
 import publicidade from './publicRoute.js';
 import pageFound from './foundPageRoute.js';
+import category from './categoryRoute.js';
 
 router.use("/", home);
 router.use("/acompanhantes", acomp);
+router.use("/categoria", category);
 router.use("/planos", planos);
 router.use('/sobre', sobre);
 router.use("/register", register);
