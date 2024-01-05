@@ -39,6 +39,12 @@ class Category {
 
   }
 
+  async modify(req,res){
+
+    //
+
+  }
+
   async remove(req,res){
     const {id} = req.params;
     console.log(id);

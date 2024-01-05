@@ -6,6 +6,28 @@ import acompModel from '../models/acompModel.js';
 class Acomp {
 
   async index(req, res) {
+  const { page = 1, limit = 12, nome, genero } = req.query;
+  const skip = (page - 1) * limit;
+  const query = {};
+
+    try {
+      if (nome) {
+        query.nome = { $regex: new RegExp(nome, "i") };
+      }
+
+      if (genero) {
+        query.genero = genero; // Supondo que o gênero seja uma string exata (por exemplo: "masculino", "feminino")
+      }
+
+      const users = await acompModel.find(query).skip(skip).limit(parseInt(limit));
+      res.status(200).json({ dados: users });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+
+
+  /*async index(req, res) {
     const { page = 1, limit = 12 } = req.query;
     const skip = (page - 1) * limit;
 
@@ -22,7 +44,7 @@ class Acomp {
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
-  };
+  };*/
 
   async show(req, res) {
     const { id } = req.params;
