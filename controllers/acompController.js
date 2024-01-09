@@ -6,24 +6,24 @@ import acompModel from '../models/acompModel.js';
 class Acomp {
 
   async index(req, res) {
-  const { page = 1, limit = 12, nome, genero } = req.query;
-  const skip = (page - 1) * limit;
-  const query = {};
+    const { page = 1, limit = 12, nome, genero } = req.query;
+    const skip = (page - 1) * limit;
+    const query = {};
 
-    try {
-      if (nome) {
-        query.nome = { $regex: new RegExp(nome, "i") };
+      try {
+        if (nome) {
+          query.nome = { $regex: new RegExp(nome, "i") };
+        }
+
+        if (genero) {
+          query.genero = genero; // Supondo que o gênero seja uma string exata (por exemplo: "masculino", "feminino")
+        }
+
+        const users = await acompModel.find(query).skip(skip).limit(parseInt(limit));
+        res.status(200).json({ dados: users });
+      } catch (error) {
+        res.status(500).json({ message: error.message });
       }
-
-      if (genero) {
-        query.genero = genero; // Supondo que o gênero seja uma string exata (por exemplo: "masculino", "feminino")
-      }
-
-      const users = await acompModel.find(query).skip(skip).limit(parseInt(limit));
-      res.status(200).json({ dados: users });
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
   }
 
 
@@ -66,7 +66,7 @@ class Acomp {
       const acompanhantes = await acompModel.find();
       return res.status(200).json({ resultBusca: acompanhantes });
     } else {
-      const acompanhantes = await acompModel.find({ nome: { $regex: new RegExp(nome, 'i') } }); 
+      const acompanhantes = await acompModel.find({ nome: { $regex: new RegExp(nome, 'i') } });
       if (acompanhantes.length === 0) {
         console.log("Nenhum acompanhante encontrado!");
         return res.status(404).json({ message: 'Nenhum acompanhante encontrado.' });

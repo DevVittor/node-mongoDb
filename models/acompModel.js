@@ -12,7 +12,7 @@ const acompSchema = new mongoose.Schema({
     genero:{
       type:String,
       required:[true,"Precisamos saber o seu genero para motivos de buscas"],
-      trim:true,
+      trim:true
     },
     idade:{
       type:Number,

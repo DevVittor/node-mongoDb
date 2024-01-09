@@ -37,7 +37,10 @@ app.use("/upload", express.static("upload"));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  optionsSuccessStatus: 200, // Algumas versões do CORS do Express requerem esse parâmetro
+}));
 app.use(session({
   secret: 'suaChaveSecretaAqui',
   resave: false,
@@ -56,4 +59,3 @@ connectDB()
             console.log(`Servidor rodando na porta ${portServer} usando Http`);
           });
       }).catch(error => console.error(`Não foi possiveil se conectar ao MongoDB por causa do error: ${error}`));
-
