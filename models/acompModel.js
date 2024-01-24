@@ -1,48 +1,68 @@
 import mongoose from "mongoose";
 
 const acompSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: false,
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
+    senha: {
+        type: String,
+        required:false,
+        trim: true
+    },
+    typeAccount: [{
+        type: String,
+        required: false,
+        default: "Acompanhante",
+    }],
     fotos: [{
         type: String,
         required: [false, 'Fotos são obrigatórias. Por favor, adicione pelo menos uma foto.']
     }],
     nome: {
         type: String,
-        required: [true, 'O campo Nome é obrigatório. Por favor, forneça um nome para seu perfil.']
+        required: [false, 'O campo Nome é obrigatório. Por favor, forneça um nome para seu perfil.']
     },
     genero:{
-      type:String,
-      required:[true,"Precisamos saber o seu genero para motivos de buscas"],
-      trim:true
+        type:String,
+        required:[false,"Precisamos saber o seu genero para motivos de buscas"],
+        trim:true
     },
     idade:{
-      type:Number,
-      required:[true,"Precisamos saber a sua idade para liberar o seu cadastro"],
-      trim:true,
+        type:Number,
+        required:[false,"Precisamos saber a sua idade para liberar o seu cadastro"],
+        trim:true,
+    },
+    altura:{
+        type:Number,
+        required:[false,"Precisamos saber a sua Altura para liberar o seu cadastro"],
+        trim:true,
+    },
+    peso:{
+        type:Number,
+        required:[false,"Precisamos saber a sua Peso para liberar o seu cadastro"],
+        trim:true,
     },
     sobre: {
         type: String,
-        required: [true, 'Sobre é obrigatório. Por favor, forneça informações sobre você.'],
-        maxlength: [250, 'O campo Sobre deve ter no máximo 250 caracteres.']
+        required: [false, 'Sobre é obrigatório. Por favor, forneça informações sobre você.'],
+        maxlength: [150, 'O campo Sobre deve ter no máximo 250 caracteres.']
     },
     caches: {
         type: Number,
-        required: [true, 'O campo Caches é obrigatório.'],
+        required: [false, 'O campo Caches é obrigatório.'],
         trim: true
     },
     servicos: [{
         type: String,
         required: false,
         default: "Sem serviços",
-        enum: ["Anal", "Beijo na boca", "Casal", "Boquete", "Punheta",
-            "Ejaculação no corpo", "Namoradinha", "Fantasias e disfarces", "Gozo Facial",
-            "Dupla Penetração", "Massagem erótica"]
-    }],
-    servicosEspeciais: [{
-        type: String,
-        required: false,
-        default: "Sem serviços especiais",
-        enum: ["Beijo Negro", "Chuva Dourada", "Chuva Negra", "Garganta Profunda", "Sado Duro",
-            "Sado Suave", "Squirting", "Striptease"]
+        enum: ["Anal","Beijo na Boca","Casal","Namoradinha","Fantasias",
+        "Massagem erótica","Chuva Dourada","Chuva Negra","Striptease",
+        "Festas","Eventos","Viagens","Anal Giratório",]
     }]
 })
 

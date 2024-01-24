@@ -9,7 +9,6 @@ import sobre from './sobreRoute.js';
 import register from './registerRoute.js';
 import login from './loginRoute.js';
 import logout from './logoutRoute.js';
-import product from './productRoute.js';
 import publicidade from './publicRoute.js';
 import pageFound from './foundPageRoute.js';
 import category from './categoryRoute.js';
@@ -22,7 +21,6 @@ router.use('/sobre', sobre);
 router.use("/register", register);
 router.use("/login", login);
 router.use("/logout",logout);
-router.use("/product", product);
 router.use("/publicidade", publicidade);
 router.use("/*", pageFound);
 

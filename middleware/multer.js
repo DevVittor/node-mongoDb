@@ -1,7 +1,7 @@
-import multer from 'multer';
+/*import multer from 'multer';
 import sharp from 'sharp';
 sharp.cache(false);
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
     destination: function (req, file, cb) {
         cb(null, "upload/");
     },
@@ -11,4 +11,4 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-export default upload;
+export default upload;*/

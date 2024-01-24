@@ -1,4 +1,6 @@
 import User from '../models/userModel.js';
+import Acomp from '../models/acompModel.js';
+import Anunciante from '../models/anuncianteModel.js';
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -11,11 +13,25 @@ class Login {
     }
 
     async store(req, res) {
-        const { email, senha } = req.body;
+        const { email, senha, typeAccount } = req.body;
+        let userCheck;
+        switch(typeAccount) {
+            case 'Cliente':
+                return userCheck = await User.findOne({ email });
+                break;
+            case 'Acompanhante':
+                return userCheck = await Acomp.findOne({email});
+                break;
+            case 'Anunciante':
+                return userCheck = await Anunciante.findOne({email});
+                break;
+            default:
+                return res.status(301);
+        }
 
         try {
-            const userCheck = await User.findOne({ email });
-
+            
+            console.log(userCheck);
             if (!userCheck) {
                 res.status(401).json({ error: 'Credenciais inválidas' });
                 return;

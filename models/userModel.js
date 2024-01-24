@@ -13,11 +13,11 @@ const userSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    privilegios: [{
+    typeAccount: [{
         type: String,
         required: true,
         default: "Cliente",
-        enum: ["Cliente", "Acompanhante", "Anunciante", "Administrador"]
+        enum:["Cliente","Acompanhante","Anunciante","Admin"]
     }]
 });
 

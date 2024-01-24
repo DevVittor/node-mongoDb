@@ -1,19 +1,36 @@
 import mongoose from "mongoose";
 
 const anuncianteSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true
+    },
+    senha: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    typeAccount: [{
+        type: String,
+        required: true,
+        default: "Anunciante",
+    }],
     banner: {
         type: String,
-        required: true
+        required: false
     },
     linkBanner: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
         lowercase: true
     },
     prazo: {
         type: Number,
-        required: true,
+        required: false,
     }
 });
 
