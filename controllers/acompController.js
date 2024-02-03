@@ -151,6 +151,7 @@ class Acomp {
           }
           const convertedImageBuffer = await sharp(file.buffer)
             .resize({ width: 600, fit: 'cover', position: 'center' })
+            .toFormat('webp')
             .toBuffer();
   
             await writeFileAsync(`upload/${convertedImg}`, convertedImageBuffer);

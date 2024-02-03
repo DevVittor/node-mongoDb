@@ -17,10 +17,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: "Cliente",
-        enum:["Cliente","Acompanhante","Anunciante","Admin"]
+        enum:["Visitante","Cliente","Acompanhante","Anunciante","Admin"]
     }]
 });
 
 const User = mongoose.model("Users", userSchema);
+
 
 export default User;

@@ -18,6 +18,10 @@ const anuncianteSchema = new mongoose.Schema({
         required: true,
         default: "Anunciante",
     }],
+    title:{
+        type:String,
+        required:false
+    },
     banner: {
         type: String,
         required: false
@@ -28,12 +32,19 @@ const anuncianteSchema = new mongoose.Schema({
         trim: true,
         lowercase: true
     },
-    prazo: {
-        type: Number,
+    vencimento: {
+        type: String,
         required: false,
     }
 });
 
 const anuncianteModel = mongoose.model("anunciantes", anuncianteSchema);
+/*anuncianteModel.deleteMany({})
+.then(() => {
+    console.log('Documentos removidos com sucesso.');
+})
+.catch((err) => {
+    console.error(err);
+});*/
 
 export default anuncianteModel;

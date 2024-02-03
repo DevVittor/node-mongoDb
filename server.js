@@ -6,6 +6,7 @@ import session from 'express-session';
 import http from 'node:http';
 import {fileURLToPath} from 'node:url';
 import path from 'node:path';
+import cookie from 'cookie-parser';
 import fs from 'node:fs';
 import rfs from 'rotating-file-stream';
 import morgan from 'morgan';
@@ -37,6 +38,7 @@ app.use("/upload", express.static("upload"));
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookie());
 app.use(cors({
   origin: 'http://localhost:5173',
   optionsSuccessStatus: 200, // Algumas versões do CORS do Express requerem esse parâmetro
