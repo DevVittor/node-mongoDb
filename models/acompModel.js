@@ -1,23 +1,11 @@
 import mongoose from "mongoose";
+import User from "./userModel.js";
 
 const acompSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        required: false,
-        unique: true,
-        lowercase: true,
-        trim: true
+    id:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:User
     },
-    senha: {
-        type: String,
-        required:false,
-        trim: true
-    },
-    typeAccount: [{
-        type: String,
-        required: false,
-        default: "Acompanhante",
-    }],
     fotos: [{
         type: String,
         required: [false, 'Fotos são obrigatórias. Por favor, adicione pelo menos uma foto.']
@@ -67,5 +55,12 @@ const acompSchema = new mongoose.Schema({
 })
 
 const acompModel = mongoose.model("acomps", acompSchema);
+/*acompModel.deleteMany({})
+.then(() => {
+    console.log('Documentos removidos com sucesso.');
+})
+.catch((err) => {
+    console.error(err);
+});*/
 
 export default acompModel;

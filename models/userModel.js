@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+    nome:{
+        type:String,
+        require:true,
+    },
     email: {
         type: String,
         required: true,
@@ -15,13 +19,19 @@ const userSchema = new mongoose.Schema({
     },
     typeAccount: [{
         type: String,
-        required: true,
+        required: false,
         default: "Cliente",
-        enum:["Visitante","Cliente","Acompanhante","Anunciante","Admin"]
+        enum:["Cliente","Acompanhante","Anunciante","Admin"]
     }]
 });
 
 const User = mongoose.model("Users", userSchema);
-
+/*User.deleteMany({})
+.then(() => {
+    console.log('Documentos removidos com sucesso.');
+})
+.catch((err) => {
+    console.error(err);
+});*/
 
 export default User;

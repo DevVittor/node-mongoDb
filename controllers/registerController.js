@@ -1,6 +1,4 @@
 import User from '../models/userModel.js';
-import Acomp from '../models/acompModel.js';
-import Anunciante from '../models/anuncianteModel.js';
 import bcrypt from "bcrypt";
 
 class Register {
@@ -10,42 +8,26 @@ class Register {
     };
 
     async store(req, res) {
-        const { email, senha, typeAccount } = req.body;
-        let UsuarioType;
-        if (!email) {
-            res.status(301);
-            console.log(`Tem que ter um email`);
-        } else if (!senha) {
-            res.status(301);
-            console.log(`Tem que ter uma senha`);
-        }else if(!typeAccount){
-            res.status(301);
-        } else {
-            switch(typeAccount) {
-                case 'Cliente':
-                    UsuarioType = User;
-                    break;
-                case 'Acompanhante':
-                    UsuarioType = Acomp;
-                    break;
-                case 'Anunciante':
-                    UsuarioType = Anunciante;
-                    break;
-                default:
-                    res.status(301);
-                    return;
-            }
-            const hashPassword = await bcrypt.hash(senha, 10);
-            const cadastrarUser = new UsuarioType({
+
+        const {nome, email, senha, typeAccount} = req.body;
+        if(!nome || !email || !senha || !typeAccount) return res.status(400).json({mensagem:"Preencha todos os campos corretamente"});
+        try {
+            const duplicateEmail = await User.findOne({email});
+            if(duplicateEmail) return res.status(400).json({mensagem:`Esse ${email} já foi cadastrado`});
+            const salt = bcrypt.genSaltSync(16);
+            const hashSenha = bcrypt.hashSync(senha,salt);
+            const createAccount = await User({
+                nome,
                 email,
-                senha: hashPassword,
+                senha:hashSenha,
                 typeAccount
             });
-            await cadastrarUser.save();
-            res.status(200).json({mensagem:`Foi criada uma conta no ${typeAccount} com o email: ${email}`});
-            console.log(`Foi criada uma conta no ${typeAccount} com o email: ${email}`);
-            
+            await createAccount.save();
+            res.status(201).json({mensagem:`Conta Criada com sucesso com o tipo ${typeAccount}`})
+        } catch (error) {
+            console.log(`Catch error: ${error}`);
         }
+
     }
 
 }

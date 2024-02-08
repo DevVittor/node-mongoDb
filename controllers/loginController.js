@@ -9,7 +9,19 @@ const jwtSecret = process.env.JWT_SECRET;
 class Login {
 
     async index(req, res) {
-        res.json({ menssagem: "Login" });
+        const {id} = req.params;
+        
+        try {
+            const searchData = await User.findById(id);
+
+            if(!searchData) return res.status(404).json({mensagem:"Nenhum Usuário foi encontrado com esse ID"});
+
+            res.status(200).json(searchData);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({mensagem:`Deu um erro na busca pelo usuário!Error:${error}`});
+        }
+
     }
 
     async store(req, res) {
@@ -17,13 +29,13 @@ class Login {
         let userCheck;
         switch(typeAccount) {
             case 'Cliente':
-                return userCheck = await User.findOne({ email });
+                userCheck = await User.findOne({ email });
                 break;
             case 'Acompanhante':
-                return userCheck = await Acomp.findOne({email});
+                userCheck = await Acomp.findOne({email});
                 break;
             case 'Anunciante':
-                return userCheck = await Anunciante.findOne({email});
+                userCheck = await Anunciante.findOne({email});
                 break;
             default:
                 return res.status(301);
@@ -40,8 +52,10 @@ class Login {
             const senhaValida = await bcrypt.compare(senha, userCheck.senha);
 
             if (senhaValida) {
+                console.log("UserID:",userCheck._id);
+                const userIdString = userCheck._id.toString();
               jwt.sign(
-                {id:userCheck._id},
+                {id:userIdString},
                 jwtSecret,
                 {expiresIn:30},
                 (error,token)=>{
@@ -49,7 +63,7 @@ class Login {
                     res.status(400).json({error:"Falha Interna"});
                   }else{
                     req.tokenCode = token;
-                    res.status(200).json({token:token});
+                    res.status(200).json({token:token, userId:userIdString});
                     console.log(token);
                   }
                 }
