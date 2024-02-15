@@ -1,12 +1,12 @@
-import express from 'express';
+import express from "express";
 
 const router = express.Router();
 
-import Register from '../../controllers/registerController.js';
+import Register from "../../controllers/registerController.js";
 
 const registerController = new Register();
 
 router.get("/", registerController.index);
-router.post("/create", registerController.store);
+router.post("/salvar", registerController.store);
 
 export default router;
