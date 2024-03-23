@@ -8,7 +8,7 @@ import Acomp from "../../controllers/acompController.js";
 const acompController = new Acomp();
 
 router.get("/", acompController.index);
-router.get("/:id", acompController.show);
+router.get("/:username", acompController.show);
 //router.post("/save", upload.array("files", 5), acompController.store);
 router.post(
   "/save",

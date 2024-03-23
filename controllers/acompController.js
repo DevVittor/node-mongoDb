@@ -33,20 +33,24 @@ class Acomp {
 
   async show(req, res) {
     const { id } = req.params;
+    console.log("Id user node:",id);
+
     try {
       const acompInfo = await acompModel.findOne({ _id: id });
+      console.log("",acompInfo)
       if (!acompInfo) {
         return res.status(404).json({ message: "Acompanhante não encontrado" });
       }
-      res.status(200).json({ info: acompInfo });
+      res.status(200).json({ acompInfo });
     } catch (error) {
+      console.log(`Nada foi encontrado ${error}`)
       res.status(500).json({ message: error.message });
     }
   }
 
   async store(req, res) {
     const {
-      userId,
+      //userId,
       nome,
       genero,
       idade,
@@ -58,7 +62,7 @@ class Acomp {
     } = req.body;
 
     if (
-      !userId ||
+      //!userId ||
       !nome ||
       !genero ||
       !idade ||
@@ -70,8 +74,9 @@ class Acomp {
     ) {
       return res.status(404).json({ mensagem: "Preencha todos os campos" });
     }
-    const uniqueName = `${nome}#${Math.floor(Math.random() * 9000) + 1000}`;
-    try {
+    let nomeSemEspacos = nome.replace(/\s/g, '').toLowerCase();
+    const uniqueName = `${nomeSemEspacos}#${Math.floor(Math.random() * 9000) + 1000}`;
+    /*try {
       if (!req.files || !files.buffer || req.files.length === 0) {
         console.log("Nenhum arquivo foi enviado");
         res.status(400).send("Nenhum arquivo foi enviado");
@@ -87,7 +92,7 @@ class Acomp {
           if (
             ![
               "image/jpeg",
-              "image/png" /* outros formatos suportados */,
+              "image/png",
             ].includes(file.mimetype)
           ) {
             console.error("Tipo de arquivo não suportado:", file.mimetype);
@@ -104,50 +109,50 @@ class Acomp {
         }
       } catch (sharpError) {
         console.error("Erro no Sharp:", sharpError);
-      }
+      }*/
 
-      for (const file of req.files) {
-        if (!file.buffer || file.buffer.length === 0) {
-          console.error("Buffer de imagem inválido:", file);
-          continue; // Pular para o próximo arquivo
-        }
-        await fs.unlink(file.path);
+    /*for (const file of req.files) {
+      if (!file.buffer || file.buffer.length === 0) {
+        console.error("Buffer de imagem inválido:", file);
+        continue; // Pular para o próximo arquivo
       }
+      await fs.unlink(file.path);
+    }*/
 
-      try {
-        const productCreate = await acompModel.create({
-          userId,
-          nome_tag: uniqueName,
-          nome,
-          genero,
-          idade,
-          altura,
-          peso,
-          sobre,
-          caches,
-          servicos,
-          fotos: convertedImages,
-        });
+    try {
+      const productCreate = await acompModel.create({
+        //userId,
+        nome_tag: uniqueName,
+        nome,
+        genero,
+        idade,
+        altura,
+        peso,
+        sobre,
+        caches,
+        servicos,
+        //fotos: convertedImages,
+      });
 
-        await productCreate.save();
-        console.log("Produto criado com sucesso!");
-        req.app.locals.accessLogStream.write(`Produto criado: ${nome}\n`);
-        res.status(200).json({
-          mensagem: "Produto criado com sucesso!",
-          data: { nome, convertedImages },
-        });
-      } catch (error) {
-        console.error(`Erro ao criar ou salvar o produto: ${error}`);
-        res
-          .status(500)
-          .json({ error: "Erro durante o processamento de arquivos" });
-      }
+      await productCreate.save();
+      console.log("Produto criado com sucesso!");
+      //req.app.locals.accessLogStream.write(`Produto criado: ${nome}\n`);
+      res.status(200).json({
+        mensagem: "Produto criado com sucesso!",
+        //data: { nome, convertedImages },
+      });
     } catch (error) {
+      console.error(`Erro ao criar ou salvar o produto: ${error}`);
+      res
+        .status(500)
+        .json({ error: `Erro durante o processamento de arquivos. Error:${error}` });
+    }
+    /*} catch(error) {
       console.error(`Não foi possível criar um perfil: ${error}`);
       res
         .status(500)
         .json({ error: "Erro durante o processamento de arquivos" });
-    }
+    }*/
   }
 
   async remove(req, res) {

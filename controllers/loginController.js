@@ -41,7 +41,7 @@ class Login {
             if (senhaValida) {
                 console.log("UserID:", buscarUsuario._id);
                 const userIdString = buscarUsuario._id.toString();
-                const token = jwt.sign({ id: userIdString }, jwtSecret, { expiresIn: 10 });
+                const token = jwt.sign({ id: userIdString }, jwtSecret, { expiresIn: '72h' });
                 console.log("Token de acesso:", token);
                 setTimeout(() => {
                     try {
